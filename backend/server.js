@@ -54,6 +54,11 @@ if (process.env.NODE_ENV === 'development') {
 // Static files
 app.use('/uploads', express.static('uploads'));
 
+// Root route for Render or general ping
+app.get('/', (req, res) => {
+  res.send('💖 Welcome to the Skill Swap API 💖');
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ 
