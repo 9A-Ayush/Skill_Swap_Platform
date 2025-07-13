@@ -27,12 +27,23 @@ app.use(helmet({
 }));
 
 // CORS configuration
+// ✅ CORS configuration — updated for Vercel frontend
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://skill-swap-platform-mocha.vercel.app'
+];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL || 'https://your-frontend-domain.com'] 
-    : ['http://localhost:3000'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 
 // Rate limiting
 const limiter = rateLimit({
